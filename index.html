@@ -196,13 +196,15 @@
   /* ====== CẤU HÌNH ====== */
   var CONFIG = {
     // (mật mã giờ nằm trong danh sách GUESTS bên dưới)                 // mật mã mở quà
+    photoBase: 'https://raw.githubusercontent.com/trungrk247/qua2010/main/',   // thư mục chứa ảnh trên GitHub. Ảnh nằm trong thư mục con thì thêm vào, vd '.../main/anh/'. Để '' nếu muốn dùng đường dẫn tương đối (ảnh cùng thư mục với trang)
     photoUrl: '',                // dán link ảnh hoặc tên file ảnh (vd: 'anh.jpg'). Để trống = chạm vào khung để chọn ảnh
-    qrText: 'https://trungrk247.github.io/qua2010/'  // link mà mã QR mở ra khi quét
+    qrText: 'https://trungrk247.github.io/qua2010/#mo-qua'  // link mà mã QR mở ra khi quét
   };
   /* ======================= */
 
   // ---- Ảnh ----
   var picks = document.querySelectorAll('[data-pick]'), fileInput = document.getElementById('file');
+  function photoSrc(f){ return /^(https?:|data:|\/)/.test(f) ? f : (CONFIG.photoBase || '') + f; }   // tên file -> đường dẫn đầy đủ
   function clearPhoto(p){ var old = p.querySelector('img'); if(old) old.remove(); p.classList.remove('has'); }
   function setPhoto(src, list){
     (list || picks).forEach(function(p){
@@ -212,7 +214,7 @@
       im.src = src; p.insertBefore(im, p.firstChild); p.classList.add('has');
     });
   }
-  if(CONFIG.photoUrl) setPhoto(CONFIG.photoUrl);
+  if(CONFIG.photoUrl) setPhoto(photoSrc(CONFIG.photoUrl));
   var fileTarget = null;
   picks.forEach(function(p){ p.addEventListener('click', function(){ fileTarget = p; fileInput.click(); }); });
   fileInput.addEventListener('change', function(){
@@ -339,7 +341,9 @@
     '2904': {name: 'LÂM HIỂU LỖI', photo: 'hieuloi.jpg'},
     '2203': {name: 'LÊ PHƯƠNG THẢO', photo: 'phuongthao.jpg'},
     '1712': {name: 'Phạm LƯU NHƯ THÙY', photo: 'nhuthuy.jpg'},
-    '2003': {name: 'NGUYỄN THÚY NGÂN', photo: 'thuyngan.jpg'}
+    '2003': {name: 'NGUYỄN THÚY NGÂN', photo: 'thuyngan.jpg'},
+    '1111': {name: '', photo: ''},   // người thứ 20: điền tên, tên file ảnh (hoặc đổi mật mã)
+    '2222': {name: '', photo: ''}    // người thứ 21: điền tên, tên file ảnh (hoặc đổi mật mã)
   };
 
   // ---- KHO LỜI CHÚC: mỗi mật mã nhận ngẫu nhiên đúng 3 lời (cố định cho từng mật mã) ----
@@ -412,7 +416,7 @@
     var box = document.getElementById('wishList'); box.innerHTML = '';
     var texts = pickWishes(code), els = texts.map(function(){ var el = document.createElement('p'); el.className = 'letter wish'; box.appendChild(el); return el; });
     var frame = document.querySelector('.photo');
-    if(g.photo) setPhoto(g.photo, [frame]); else if(CONFIG.photoUrl) setPhoto(CONFIG.photoUrl, [frame]); else clearPhoto(frame);
+    if(g.photo) setPhoto(photoSrc(g.photo), [frame]); else if(CONFIG.photoUrl) setPhoto(photoSrc(CONFIG.photoUrl), [frame]); else clearPhoto(frame);
     paper.classList.remove('open'); void paper.offsetWidth; paper.classList.add('open');
     typeAll(els, texts);
   }
