@@ -346,7 +346,13 @@
     '2203': {name: 'LÊ PHƯƠNG THẢO', photo: 'phuongthao.jpg'},
     '1712': {name: 'PHẠM LƯU NHƯ THÙY', photo: 'nhuthuy.jpg'},
     '2003': {name: 'NGUYỄN THÚY NGÂN', photo: 'thuyngan.jpg'},
-    '1010': {name: 'THÁI YẾN NHI', photo: 'yennhi.jpg'},   // người thứ 20: sửa mật mã, tên và ảnh
+    // wishes: [...] = lời chúc RIÊNG, chỉ người có mật mã này mới nhận được (không nằm trong kho WISHES nên không ai khác gặp)
+    // Người nào không có wishes thì nhận ngẫu nhiên 3 lời từ kho WISHES bên dưới.
+    '1010': {name: 'THÁI YẾN NHI', photo: 'yennhi.jpg', wishes: [   // người thứ 20
+      'Gửi Yến Nhi: mong bạn luôn như chú chim yến nhỏ, nhẹ nhàng bay đến những nơi bạn muốn và luôn có một mái ấm bình yên để trở về.',
+      'Chúc Yến Nhi ngày 20/10 thật rực rỡ: nụ cười luôn nở trên môi, mọi dự định đều thành công và xung quanh luôn có thật nhiều người thương bạn.',
+      'Cảm ơn Yến Nhi vì đã luôn dịu dàng và đáng yêu theo cách của riêng bạn. Mong bạn mãi giữ được sự tươi sáng đó, hôm nay và cả những ngày về sau.'
+    ]},
     '2009': {name: '', photo: ''}    // người thứ 21: sửa mật mã, tên và ảnh
   };
 
@@ -418,7 +424,7 @@
   function renderGuest(g, code){
     document.getElementById('title').textContent = "Happy Women's Day" + (g.name ? ", " + g.name : "");
     var box = document.getElementById('wishList'); box.innerHTML = '';
-    var texts = pickWishes(code), els = texts.map(function(){ var el = document.createElement('p'); el.className = 'letter wish'; box.appendChild(el); return el; });
+    var texts = (g.wishes && g.wishes.length) ? g.wishes : pickWishes(code), els = texts.map(function(){ var el = document.createElement('p'); el.className = 'letter wish'; box.appendChild(el); return el; });
     var frame = document.querySelector('.photo');
     if(g.photo) setPhoto(g.photo, [frame]); else if(CONFIG.photoUrl) setPhoto(CONFIG.photoUrl, [frame]); else clearPhoto(frame);
     paper.classList.remove('open'); void paper.offsetWidth; paper.classList.add('open');
