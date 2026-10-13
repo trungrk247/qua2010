@@ -160,7 +160,6 @@
       <p class="sub">Một món quà nhỏ dành riêng cho các bạn nữ 11A15</p>
       <div class="qr-wrap"><canvas id="qr" width="440" height="440" aria-label="Mã QR mở món quà"></canvas></div>
       <p class="script hint-open">Quét QR để mở món quà</p>
-      <button id="btnOpen" class="btn">Mở quà ngay</button>
       <p class="pin-hint">Mỗi người có một mật mã riêng 💌</p>
       <p class="pin-hint">Mật mã chính là ngày sinh nhật của các bạn!</p>
     </div>
@@ -196,7 +195,7 @@
   /* ====== CẤU HÌNH ====== */
   var CONFIG = {
     // (mật mã giờ nằm trong danh sách GUESTS bên dưới)                 // mật mã mở quà
-    photoBase: '',   // thư mục chứa ảnh trên GitHub. Ảnh nằm trong thư mục con thì thêm vào, vd '.../main/anh/'. Để '' nếu muốn dùng đường dẫn tương đối (ảnh cùng thư mục với trang)
+    photoBase: 'https://trungrk247.github.io/qua2010/',   // đường dẫn thư mục ảnh trên GitHub (có dấu / ở cuối). Mở file từ máy vẫn tải được ảnh từ link này. Ảnh để trong thư mục con thì thêm vào, vd '.../qua2010/anh/'. Để trống = lấy ảnh cạnh file
     photoUrl: '',                // dán link ảnh hoặc tên file ảnh (vd: 'anh.jpg'). Để trống = chạm vào khung để chọn ảnh
     qrText: 'https://trungrk247.github.io/qua2010/#mo-qua'  // link mà mã QR mở ra khi quét
   };
@@ -204,17 +203,23 @@
 
   // ---- Ảnh ----
   var picks = document.querySelectorAll('[data-pick]'), fileInput = document.getElementById('file');
-  function photoSrc(f){ return /^(https?:|data:|\/)/.test(f) ? f : (CONFIG.photoBase || '') + f; }   // tên file -> đường dẫn đầy đủ
   function clearPhoto(p){ var old = p.querySelector('img'); if(old) old.remove(); p.classList.remove('has'); }
+  // Thứ tự thử: (1) photoBase + tên ảnh (link GitHub), (2) ảnh cạnh file. Cả hai đều lỗi -> quay về khung chọn ảnh
+  function photoCandidates(src){
+    if(/^(https?:|data:|blob:|\/)/i.test(src)) return [src];
+    var base = CONFIG.photoBase || '';
+    return base ? [base.replace(/\/?$/, '/') + src, src] : [src];
+  }
   function setPhoto(src, list){
+    var cands = photoCandidates(src);
     (list || picks).forEach(function(p){
       clearPhoto(p);
-      var im = new Image(); im.alt = '';
-      im.onerror = function(){ clearPhoto(p); };   // không tìm thấy ảnh -> quay về khung chọn ảnh
-      im.src = src; p.insertBefore(im, p.firstChild); p.classList.add('has');
+      var im = new Image(), k = 0; im.alt = '';
+      im.onerror = function(){ k++; if(k < cands.length) im.src = cands[k]; else clearPhoto(p); };
+      im.src = cands[0]; p.insertBefore(im, p.firstChild); p.classList.add('has');
     });
   }
-  if(CONFIG.photoUrl) setPhoto(photoSrc(CONFIG.photoUrl));
+  if(CONFIG.photoUrl) setPhoto(CONFIG.photoUrl);
   var fileTarget = null;
   picks.forEach(function(p){ p.addEventListener('click', function(){ fileTarget = p; fileInput.click(); }); });
   fileInput.addEventListener('change', function(){
@@ -259,8 +264,8 @@
     c.clearRect(0,0,W,W);
     if(typeof qrcode === 'undefined'){ c.fillStyle='#c2185b'; c.font='20px sans-serif'; c.textAlign='center'; c.fillText('Không tải được mã QR',W/2,W/2); return; }
     var hosted = location.protocol.indexOf('http') === 0;
-    var text = CONFIG.qrText || (hosted ? location.href.split('#')[0] + '#mo-qua' : 'Happy Women\'s Day 20/10 - Yêu em rất nhiều!');
-    if(!CONFIG.qrText && !hosted){
+    var text = CONFIG.qrText || (hosted ? location.href.split('#')[0] : (CONFIG.photoBase || location.href));   // mã QR chỉ chứa đường dẫn tới trang web
+    if(!CONFIG.qrText && !hosted && !CONFIG.photoBase){
       document.querySelector('.footer-note').innerHTML = '⚠️ Bạn đang mở file trực tiếp từ máy nên mã QR chưa trỏ tới trang web. Hãy đưa file lên mạng (GitHub Pages, Netlify...) rồi mở bằng link đó, mã QR sẽ tự dẫn tới trang nhập mật mã.';
     }
     var qr = qrcode(0,'H'); qr.addData(text); qr.make();
@@ -286,7 +291,6 @@
   // ---- Chuyển màn ----
   var s1 = document.getElementById('screen1'), s2 = document.getElementById('screen2'), s3 = document.getElementById('screen3');
   function show(el){ [s1,s2,s3].forEach(function(x){ x.classList.add('hidden-screen'); }); el.classList.remove('hidden-screen'); }
-  document.getElementById('btnOpen').addEventListener('click', function(){ show(s2); });
   // Quét QR -> link có #mo-qua -> vào thẳng màn nhập mật mã
   if(location.hash === '#mo-qua') show(s2);
 
@@ -340,10 +344,10 @@
     '1508': {name: 'NGÔ KHÁNH BĂNG', photo: 'khanhbang.jpg'},
     '2904': {name: 'LÂM HIỂU LỖI', photo: 'hieuloi.jpg'},
     '2203': {name: 'LÊ PHƯƠNG THẢO', photo: 'phuongthao.jpg'},
-    '1712': {name: 'PHẠM LƯU NHƯ THÙY', photo: 'nhuthuy.jpg'},
+    '1712': {name: 'Phạm LƯU NHƯ THÙY', photo: 'nhuthuy.jpg'},
     '2003': {name: 'NGUYỄN THÚY NGÂN', photo: 'thuyngan.jpg'},
-    '1111': {name: 'THÁI YẾN NHI', photo: 'yennhi.jpg'},   // người thứ 20: điền tên, tên file ảnh (hoặc đổi mật mã)
-    '2222': {name: '', photo: ''}    // người thứ 21: điền tên, tên file ảnh (hoặc đổi mật mã)
+    '1010': {name: '', photo: ''},   // người thứ 20: sửa mật mã, tên và ảnh
+    '2009': {name: '', photo: ''}    // người thứ 21: sửa mật mã, tên và ảnh
   };
 
   // ---- KHO LỜI CHÚC: mỗi mật mã nhận ngẫu nhiên đúng 3 lời (cố định cho từng mật mã) ----
@@ -416,7 +420,7 @@
     var box = document.getElementById('wishList'); box.innerHTML = '';
     var texts = pickWishes(code), els = texts.map(function(){ var el = document.createElement('p'); el.className = 'letter wish'; box.appendChild(el); return el; });
     var frame = document.querySelector('.photo');
-    if(g.photo) setPhoto(photoSrc(g.photo), [frame]); else if(CONFIG.photoUrl) setPhoto(photoSrc(CONFIG.photoUrl), [frame]); else clearPhoto(frame);
+    if(g.photo) setPhoto(g.photo, [frame]); else if(CONFIG.photoUrl) setPhoto(CONFIG.photoUrl, [frame]); else clearPhoto(frame);
     paper.classList.remove('open'); void paper.offsetWidth; paper.classList.add('open');
     typeAll(els, texts);
   }
