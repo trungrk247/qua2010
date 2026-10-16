@@ -24,10 +24,8 @@
     box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 6px rgba(255,255,255,.04);
   }
   #hearts{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-  .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:30px 28px;z-index:2;will-change:opacity,transform;
-    transition:opacity .9s cubic-bezier(.4,0,.2,1) .2s,transform 1.1s cubic-bezier(.22,1,.36,1) .2s,visibility 0s linear 0s}
-  .hidden-screen{opacity:0;pointer-events:none;visibility:hidden;transform:translateY(18px) scale(.97);
-    transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1),visibility 0s linear .55s}
+  .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:30px 28px;z-index:2;transition:opacity .5s ease,transform .5s ease}
+  .hidden-screen{opacity:0;pointer-events:none;transform:scale(.97)}
   .script{font-family:'Dancing Script',cursive;font-weight:700}
 
   /* Màn 1 */
@@ -58,12 +56,11 @@
   /* Ảnh chọn được */
   .pick{position:relative;cursor:pointer;overflow:hidden;border:3px solid var(--gold);background:linear-gradient(135deg,#8a2455,#5e1238);
     display:flex;align-items:center;justify-content:center;padding:0;color:inherit}
-  .pick img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 22%;animation:imgIn .8s ease both}
-  @keyframes imgIn{from{opacity:0;transform:scale(1.06)}}
+  .pick img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 28%}
   .pick .tap{position:absolute;bottom:0;left:0;right:0;font-size:10px;background:rgba(0,0,0,.45);padding:3px 0;color:#fff}
   .pick.has .tap{display:none}
-  .avatar{width:96px;aspect-ratio:1/1;border-radius:50%;margin-top:6px;box-shadow:0 0 30px rgba(232,86,127,.5)}
-  .photo{width:150px;aspect-ratio:3/4;height:auto;border-radius:18px;flex-shrink:0;box-shadow:0 0 36px rgba(232,86,127,.55)}
+  .avatar{width:92px;height:92px;border-radius:50%;margin-top:6px;box-shadow:0 0 30px rgba(232,86,127,.5)}
+  .photo{width:156px;height:156px;border-radius:50% 50% 50% 50%/45% 45% 55% 55%;flex-shrink:0;box-shadow:0 0 36px rgba(232,86,127,.55)}
 
   /* Màn 2 */
   #screen2 h2{font-size:34px;color:var(--blush);margin:16px 0 18px;text-align:center;line-height:1.2}
@@ -125,15 +122,13 @@
   .crease{position:absolute;left:0;right:0;height:16px;pointer-events:none;z-index:2;
     background:linear-gradient(180deg,transparent,rgba(110,70,35,.16) 42%,rgba(255,255,255,.7) 55%,transparent)}
   .c1{top:33%}.c2{top:66%}
-  .paper{will-change:transform,opacity}
-  .paper:not(.open){opacity:0}
-  .paper.open{animation:unfold 1.9s cubic-bezier(.22,.9,.3,1) both}
-  .paper.open .crease{animation:crease 2.8s .6s both}
+  .paper.open{animation:unfold 1.5s cubic-bezier(.2,.8,.2,1) both}
+  .paper.open .crease{animation:crease 2.6s .5s both}
   @keyframes unfold{
-    0%{opacity:0;transform:perspective(900px) translateY(36px) rotateX(-78deg) scale(.95)}
-    35%{opacity:1}
-    68%{transform:perspective(900px) translateY(-4px) rotateX(7deg) scale(1.005)}
-    100%{opacity:1;transform:perspective(900px) translateY(0) rotateX(0) scale(1)}}
+    0%{transform:perspective(900px) rotateX(-88deg) scaleY(.25);opacity:0;filter:brightness(.55)}
+    40%{opacity:1}
+    72%{transform:perspective(900px) rotateX(9deg) scaleY(1);filter:brightness(1.06)}
+    100%{transform:perspective(900px) rotateX(0);filter:none}}
   @keyframes crease{0%{opacity:1;transform:scaleY(2.2)}100%{opacity:.5;transform:scaleY(1)}}
   #screen3 .paper h2{color:#9c1f55;font-size:30px;margin:14px 0 6px}
   .paper .divider{margin:0 auto 12px}
@@ -313,7 +308,7 @@
       var guest = GUESTS[pin], code = pin;
       if(guest){
         msg.textContent = 'Đúng rồi! Đang mở quà...'; msg.className = 'msg-ok';
-        setTimeout(function(){ renderGuest(guest, code); show(s3); burst = true; spawn(30); setTimeout(openLetter, 650); }, 700);   // đợi màn 3 hiện ra rồi mới mở thư
+        setTimeout(function(){ renderGuest(guest, code); show(s3); burst = true; spawn(30); }, 700);
       } else {
         msg.textContent = 'Sai mật mã rồi, thử lại nhé!'; msg.className = 'msg-err';
         box.classList.add('shake'); setTimeout(function(){ box.classList.remove('shake'); }, 450);
@@ -354,14 +349,14 @@
     // wishes: [...] = lời chúc RIÊNG, chỉ người có mật mã này mới nhận được (không nằm trong kho WISHES nên không ai khác gặp)
     // Người nào không có wishes thì nhận ngẫu nhiên 3 lời từ kho WISHES bên dưới.
     '1010': {name: 'THÁI YẾN NHI', photo: 'yennhi.jpg', wishes: [   // người thứ 20
-      'Nhân ngày 20th10, thật lòng mà nói thì chúng em rất vui khi được cô chủ nhiệm trong năm học 2026-2027 này , cô rất tâm lí đối với chúng em , nên hôm nay nhân ngày 20th10 tụi em mong cô có thật nhiều niềm vui trong cuộc sống và trong công việc . Mong rằng chúng em và cô  sẽ cùng nhau vẽ lên những kỉ niệm tuyệt vời nhất thời học sinh !',
-      'Dù bài độc tấu không có tiếng vỗ tay, dù sân khấu không có hoa, nhưng khi viên phấn trên tay vẫn có thể khiến mọi âm sắc chạm đến cảm xúc khai mở trí thức, cảm ơn cô đã trở thành ngôi sao sáng trong những năm tháng bình thường của chúng em , nhân ngày 20th10 , thật lòng mà nói thì chúng em rất vui khi được cô chủ nhiệm trong năm học 2026-2027 này , cô rất tâm lí đối với chúng em , nên hôm nay nhân ngày 20th10 tụi em mong cô có thật nhiều niềm vui trong cuộc sống và trong công việc . Mong rằng chúng em và cô  sẽ cùng nhau vẽ lên những kỉ niệm tuyệt vời nhất thời học sinh',
-      'Kính chúc cô ngày 20/10 thật nhiều niềm vui và luôn tươi trẻ. Cảm ơn cô đã vừa là "người thuyền trưởng" tâm huyết của lớp, vừa là người chắp cánh cho chúng em vươn ra thế giới bằng ngôn ngữ mới. You are the best teacher ever!'
+      'Gửi Yến Nhi: mong bạn luôn như chú chim yến nhỏ, nhẹ nhàng bay đến những nơi bạn muốn và luôn có một mái ấm bình yên để trở về.',
+      'Chúc Yến Nhi ngày 20/10 thật rực rỡ: nụ cười luôn nở trên môi, mọi dự định đều thành công và xung quanh luôn có thật nhiều người thương bạn.',
+      'Cảm ơn Yến Nhi vì đã luôn dịu dàng và đáng yêu theo cách của riêng bạn. Mong bạn mãi giữ được sự tươi sáng đó, hôm nay và cả những ngày về sau.'
     ]},
-    '2010': {name: '', photo: ''}    // người thứ 21: sửa mật mã, tên và ảnh
+    '2009': {name: '', photo: ''}    // người thứ 21: sửa mật mã, tên và ảnh
   };
 
-  // ---- KHO LỜI CHÚC (40 lời): mỗi mật mã nhận ngẫu nhiên đúng 3 lời (cố định cho từng mật mã) ----
+  // ---- KHO LỜI CHÚC: mỗi mật mã nhận ngẫu nhiên đúng 3 lời (cố định cho từng mật mã) ----
   var WISHES = [
     'Chúc bạn ngày 20/10 thật rực rỡ, mọi dự định đều thành công và luôn có thật nhiều người thương bên cạnh.',
     'Chúc bạn ngủ đủ giấc, ăn thật ngon, cười thật nhiều và chẳng phải lo nghĩ điều gì.',
@@ -394,22 +389,14 @@
     'Chúc bạn mọi ước mơ đều nở hoa, mọi nỗ lực đều được đền đáp, và mọi ngày đều đáng nhớ.',
     'Hôm nay thế giới có thêm một lý do để mỉm cười, vì có bạn. Chúc mừng ngày 20/10!',
     'Chúc bạn thật nhiều niềm vui như hoa nở đầu xuân, thật nhiều bình yên như buổi sáng cuối tuần.',
-    'Mong bạn luôn tin vào chính mình, vì bạn có thể làm được nhiều hơn bạn nghĩ rất nhiều.',
-    'Chúc bạn luôn có một nơi để về, một người để nhớ và một điều để mong chờ mỗi ngày.',
-    'Mong bạn luôn dũng cảm theo đuổi điều mình thích và không bao giờ phải tiếc nuối vì đã thử.',
-    'Chúc bạn tháng nào cũng có tin vui, tuần nào cũng có niềm vui và ngày nào cũng có một lý do để cười.',
-    'Mong thanh xuân của bạn thật đẹp: có bạn bè thân thiết, có kỷ niệm đáng nhớ và có cả những điều ngọt ngào.',
-    'Nhân ngày 20/10 chúc các bạn ngày càng xinh đẹp, lúc nào cũng tràn đầy năng lượng và làm thành công những dự định sắp tới.',
-    'Hôm nay bạn không cần làm gì to tát, chỉ cần vui là đủ. Chúc mừng ngày của bạn, cô gái đáng yêu!',
-    'Ai đọc chúng thiệp chúc của tui thì rất may mắn tui xin chúc bn 20/10 vui vẻ càng ngày càng đẹp gái, học giỏi ăn mau chống lớn, sao này thành tài ,và giúp ích cho gia đình và xã hội.',
-    'Bạn đẹp gái ơi, nhân ngày 20/10, chúc bạn tôi sẽ có một tình yêu đẹp, sống hạnh phúc bên gia đình và người thân yêu. Vạn sự như ý và mãi luôn là bạn thân của tôi nhé!"'
+    'Mong bạn luôn tin vào chính mình, vì bạn có thể làm được nhiều hơn bạn nghĩ rất nhiều.'
   ];
 
   // Số ngẫu nhiên "có hạt giống": cùng mật mã thì luôn ra cùng lời chúc, mật mã khác thì ra lời khác
   function seeded(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function pickWishes(code){
     var rnd = seeded(parseInt(code, 10) * 7919 + 12345), pool = WISHES.slice(), out = [];
-    var n = 3;   // mỗi người nhận đúng 3 lời chúc (chọn ngẫu nhiên từ kho 40 lời)
+    var n = 3;   // mỗi người nhận đúng 3 lời chúc
     while(out.length < n && pool.length){ out.push(pool.splice(Math.floor(rnd() * pool.length), 1)[0]); }
     return out;
   }
@@ -431,7 +418,7 @@
       if(ci < t.length){ ci++; e.textContent = t.slice(0, ci); tw.timer = setTimeout(tick, /[.,!?]/.test(t.charAt(ci-1)) ? 280 : 38); }
       else { e.classList.remove('typing'); ei++; ci = 0; tw.timer = setTimeout(tick, 500); }
     }
-    tw.timer = setTimeout(tick, reduce ? 0 : 2000);   // chờ giấy mở ra xong rồi mới gõ
+    tw.timer = setTimeout(tick, reduce ? 0 : 1500);   // chờ giấy mở ra xong rồi mới gõ
   }
   paper.addEventListener('click', function(){ if(!tw.finished && tw.skip) tw.skip(); });
   function renderGuest(g, code){
@@ -440,13 +427,8 @@
     var texts = (g.wishes && g.wishes.length) ? g.wishes : pickWishes(code), els = texts.map(function(){ var el = document.createElement('p'); el.className = 'letter wish'; box.appendChild(el); return el; });
     var frame = document.querySelector('.photo');
     if(g.photo) setPhoto(g.photo, [frame]); else if(CONFIG.photoUrl) setPhoto(CONFIG.photoUrl, [frame]); else clearPhoto(frame);
-    paper.classList.remove('open'); s3.scrollTop = 0; pending = {els: els, texts: texts};
-  }
-  var pending = null;
-  function openLetter(){
-    if(!pending) return;
-    void paper.offsetWidth; paper.classList.add('open');
-    typeAll(pending.els, pending.texts); pending = null;
+    paper.classList.remove('open'); void paper.offsetWidth; paper.classList.add('open');
+    typeAll(els, texts);
   }
 
   // ---- Nhận yêu thương ----
@@ -459,8 +441,6 @@
 /* =====================================================================
    MODULE NHẠC NỀN (tách riêng khỏi phần chính)
    - Bật/tắt: nút 🎵. Đổi bài: nút ⏭ (chỉ hiện khi có từ 2 bài trở lên).
-   - Có sẵn: mờ dần khi bật/tắt/đổi bài, tự chuyển bài khi hết, tự tạm dừng khi
-     rời tab/khoá màn hình và phát lại khi quay về, tự bỏ qua bài lỗi.
    - TẮT HẲN nhạc: đổi enabled thành false (cả thanh nhạc sẽ biến mất).
    - Đổi/thêm bài: sửa danh sách playlist bên dưới.
    ===================================================================== */
@@ -468,17 +448,15 @@
   var MUSIC = {
     enabled: true,     // true = có nhạc, false = tắt hẳn
     autoStart: true,   // true = tự phát khi người xem chạm màn hình lần đầu
-    volume: 0.5,       // âm lượng (0 đến 1)
-    fade: 0.9,         // thời gian mờ dần vào/ra (giây)
-    autoNext: true,    // true = hết bài tự chuyển bài kế tiếp (nếu có từ 2 bài)
-    synthLoops: 2,     // nhạc tự tạo: lặp bao nhiêu vòng thì chuyển bài
+    volume: 0.5,       // âm lượng file nhạc (0 đến 1)
     /* name: tên hiện cạnh nút. synth: 'hopnhac' hoặc 'dem' = nhạc tự tạo có sẵn.
        url: tên file nhạc (mp3, m4a, ogg...) để cùng thư mục với trang, hoặc link nhạc.
        Thêm bài: bỏ // ở dòng mẫu hoặc chép thêm một dòng. Bài đầu tiên phát trước. */
     playlist: [
-      {name: 'Hộp nhạc', synth: 'hopnhac'},
-      {name: 'Đêm êm đềm', synth: 'dem'}
-      // ,{name: 'Bài của tôi', url: 'nhac.mp3'}
+      {name: 'Nhạc 1', url: 'nhac.mp3'},
+      {name: 'Nhạc 2', url: 'nhac1.mp3'},
+      {name: 'Nhạc 3', url: 'nhac2.mp3'},
+      {name: 'Nhạc 4', url: 'nhac3.mp3'}
     ]
   };
   var bar = document.getElementById('musicbar'), btn = document.getElementById('btnMusic'),
@@ -492,9 +470,7 @@
     hopnhac: {chords: [[261.63,329.63,392],[220,261.63,329.63],[174.61,220,261.63],[196,246.94,293.66]], step: 0.36, pat: [0,1,2,1,2,1,2,1], type: 'triangle', vol: 0.16},
     dem:     {chords: [[220,261.63,329.63],[174.61,220,261.63],[261.63,329.63,392],[196,246.94,293.66]], step: 0.5,  pat: [0,1,2,2,1,2,1,0], type: 'sine',     vol: 0.2}
   };
-  var cur = 0, on = false, ac = null, master = null, timer = null, fadeT = null, step = 0, nextT = 0,
-      audio = null, preset = null, err = '', gen = 0, failed = 0, wantMusic = MUSIC.autoStart, hiddenPause = false;
-  var SYNTH_GAIN = MUSIC.volume * 0.8, CYCLE = 32;   // 1 vòng = 4 hợp âm x 8 nốt
+  var cur = 0, on = false, ac = null, master = null, timer = null, step = 0, nextT = 0, audio = null, preset = null, err = '';
 
   function note(f, t, d, v, type){
     var o = ac.createOscillator(), g = ac.createGain(); o.type = type; o.frequency.value = f;
@@ -507,104 +483,39 @@
     if(k === 0){ note(ch[0] / 2, t, 2.8, 0.28, 'sine'); note(ch[2] * 4, t, 1.6, 0.06, 'sine'); }
     if(k === 4) note(ch[1] * 4, t, 1.4, 0.05, 'sine');
   }
-  function sched(){
-    if(!ac) return;
-    while(nextT < ac.currentTime + 0.6){
-      if(MUSIC.autoNext && LIST.length > 1 && step >= CYCLE * MUSIC.synthLoops){ clearInterval(timer); timer = null; goNext(); return; }
-      play(step, nextT); nextT += preset.step; step++;
-    }
-  }
+  function sched(){ while(nextT < ac.currentTime + 0.6){ play(step, nextT); nextT += preset.step; step++; } }
 
-  // Mờ dần: to = 0 (nhỏ dần) hoặc 1 (to dần)
-  function fade(to, dur, done){
-    clearInterval(fadeT);
-    if(audio){
-      var a = audio, from = a.volume, target = to * MUSIC.volume, n = Math.max(1, Math.round(dur * 30)), i = 0;
-      fadeT = setInterval(function(){
-        i++; try{ a.volume = Math.min(1, Math.max(0, from + (target - from) * i / n)); }catch(e){}
-        if(i >= n){ clearInterval(fadeT); if(done) done(); }
-      }, dur * 1000 / n);
-    } else if(ac && master){
-      var t = ac.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value, t);
-      master.gain.linearRampToValueAtTime(to * SYNTH_GAIN, t + dur);
-      if(done) fadeT = setTimeout(done, dur * 1000);
-    } else if(done) done();
-  }
-  function halt(){
-    clearInterval(timer); timer = null; clearInterval(fadeT); clearTimeout(fadeT);
-    if(audio){ audio.onended = null; audio.pause(); audio.removeAttribute('src'); audio.load(); audio = null; }
-  }
+  function halt(){ clearInterval(timer); timer = null; if(audio){ audio.pause(); audio = null; } }
   function startTrack(i){
-    halt(); err = ''; cur = i; var t = LIST[i], my = ++gen;
+    halt(); err = ''; var t = LIST[i];
     if(t.url){
-      var a = audio = new Audio(); a.preload = 'auto'; a.volume = 0;
-      a.loop = !(MUSIC.autoNext && LIST.length > 1);
-      a.onended = function(){ if(my === gen) goNext(); };
-      a.addEventListener('error', function(){
-        if(my !== gen) return; err = 'Không tìm thấy: ' + t.url; on = false; sync();
-        if(LIST.length > 1 && ++failed < LIST.length) setTimeout(function(){ if(my === gen) goNext(); }, 1200);
-      });
-      a.addEventListener('playing', function(){ failed = 0; });
-      a.src = t.url;
-      var pr = a.play();
-      if(pr && pr.then){ pr.then(function(){ if(my === gen){ on = true; fade(1, MUSIC.fade); sync(); } })
-                           .catch(function(){ if(my === gen){ on = false; sync(); } }); }   // bị chặn tự phát: chờ lần chạm sau
-      on = true;
+      audio = new Audio(t.url); audio.loop = true; audio.volume = MUSIC.volume;
+      audio.addEventListener('error', function(){ err = 'Không tìm thấy: ' + t.url; sync(); });
+      var pr = audio.play(); if(pr && pr.catch) pr.catch(function(){});
     } else {
       var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
-      if(!ac){ ac = new AC(); master = ac.createGain(); master.gain.value = 0; master.connect(ac.destination); }
-      preset = PRESETS[t.synth] || PRESETS.hopnhac; step = 0;
-      var go = function(){
-        if(my !== gen) return;
-        if(ac.state !== 'running'){ on = false; sync(); return; }   // chưa được phép phát: chờ lần chạm sau
-        master.gain.cancelScheduledValues(ac.currentTime); master.gain.setValueAtTime(0, ac.currentTime);
-        nextT = ac.currentTime + 0.1; timer = setInterval(sched, 120); on = true; fade(1, MUSIC.fade); sync();
-      };
-      if(ac.state === 'suspended'){ var r = ac.resume(); if(r && r.then) r.then(go, go); else go(); } else go();
-      on = true;
+      if(!ac){ ac = new AC(); master = ac.createGain(); master.gain.value = MUSIC.volume * 0.8; master.connect(ac.destination); }
+      if(ac.state === 'suspended') ac.resume();
+      preset = PRESETS[t.synth] || PRESETS.hopnhac; step = 0; nextT = ac.currentTime + 0.1; timer = setInterval(sched, 120);
     }
-    sync();
+    on = true; sync();
   }
-  function goNext(){ switchTo((cur + 1) % LIST.length); }
-  function switchTo(i){
-    var my = ++gen;
-    if(!on){ startTrack(i); return; }
-    fade(0, Math.min(0.5, MUSIC.fade), function(){ if(my === gen) startTrack(i); });
-    gen = my;
-  }
-  function stop(){
-    var my = ++gen; on = false; sync();
-    fade(0, Math.min(0.5, MUSIC.fade), function(){
-      if(my !== gen) return;
-      halt(); if(ac && ac.state === 'running') ac.suspend();
-    });
-  }
+  function stop(){ halt(); if(ac) ac.suspend(); on = false; sync(); }
   function sync(){
     btn.classList.toggle('off', !on); btn.textContent = on ? '🎵' : '🔇'; btn.setAttribute('aria-pressed', on);
     nameEl.textContent = err || ('♪ ' + LIST[cur].name);
   }
 
-  // Lần chạm đầu tiên (trình duyệt chỉ cho phát nhạc sau khi người dùng chạm) -> tự phát
-  ['pointerdown','touchend','click','keydown'].forEach(function(ev){
-    document.addEventListener(ev, function(e){
+  var wantMusic = MUSIC.autoStart;
+  ['pointerdown','keydown'].forEach(function(ev){
+    document.addEventListener(ev, function first(e){
       if(e.target && e.target.closest && e.target.closest('#musicbar')) return;
-      if(wantMusic && !on && !err) startTrack(cur);
-    }, {passive: true});
+      document.removeEventListener(ev, first);
+      if(wantMusic && !on) startTrack(cur);
+    });
   });
-  btn.addEventListener('click', function(){
-    if(on){ stop(); wantMusic = false; } else { err = ''; failed = 0; wantMusic = true; startTrack(cur); }
-  });
-  btnNext.addEventListener('click', function(){ err = ''; failed = 0; wantMusic = true; var i = (cur + 1) % LIST.length; if(on) switchTo(i); else startTrack(i); });
-
-  // Rời tab / khoá màn hình: tạm dừng; quay lại: phát tiếp
-  document.addEventListener('visibilitychange', function(){
-    if(document.hidden){
-      if(on){ hiddenPause = true; if(audio) audio.pause(); if(ac && ac.state === 'running') ac.suspend(); }
-    } else if(hiddenPause){
-      hiddenPause = false;
-      if(on){ if(audio){ var p = audio.play(); if(p && p.catch) p.catch(function(){}); } if(ac && ac.state === 'suspended') ac.resume(); }
-    }
-  });
+  btn.addEventListener('click', function(){ if(on){ stop(); wantMusic = false; } else { startTrack(cur); wantMusic = true; } });
+  btnNext.addEventListener('click', function(){ cur = (cur + 1) % LIST.length; startTrack(cur); wantMusic = true; });
   sync();
 })();
 </script>
