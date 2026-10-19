@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Món quà 20/10 dành cho các bạn nữ 11A15</title>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
   :root{
@@ -145,6 +145,51 @@
   .trackname{font-size:11px;color:var(--gold);max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.9}
   @media (max-width:420px){#phone{height:calc(100vh - 80px);min-height:620px}}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  /* ===== TRANG ĐẶC BIỆT (người thứ 22) ===== */
+  #special{position:fixed;inset:0;z-index:100;background:#f1ecf1;display:none;color:#fff6f3}
+  #special.on{display:block}
+  .sp-wrap{position:absolute;inset:0;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:0 0;mask-size:0 0}
+  #special.run .sp-wrap{animation:spGrow 2.6s cubic-bezier(.55,0,.35,1) forwards}
+  @keyframes spGrow{to{-webkit-mask-size:900vmax auto;mask-size:900vmax auto}}
+  .sp-stage{position:absolute;inset:0;background:linear-gradient(180deg,#14083a 0%,#3a1458 45%,#8a2f6e 80%,#d4608a 100%);overflow:hidden}
+  .sp-rays{position:absolute;left:-50%;top:-50%;width:200%;height:200%;opacity:.55;animation:spRot 90s linear infinite;
+    background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.16) 0 5deg,transparent 5deg 15deg);
+    -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 0,transparent 38%);mask-image:radial-gradient(circle at 50% 50%,#000 0,transparent 38%)}
+  @keyframes spRot{to{transform:rotate(360deg)}}
+  #spCanvas{position:absolute;inset:0;width:100%;height:100%}
+  .sp-scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;z-index:2;-webkit-overflow-scrolling:touch}
+  .sp-hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:7vh 18px 36px;text-align:center}
+  .sp-hero .hi{font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(24px,5vw,38px);color:var(--gold);text-shadow:0 0 18px rgba(227,181,101,.6)}
+  .sp-hero .big{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:clamp(84px,19vw,190px);line-height:1;letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff0c9,#e8b869 55%,#c58a3c);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 22px rgba(255,190,110,.45))}
+  .sp-hero .vn{font-size:clamp(10px,2vw,13px);letter-spacing:.5em;color:#e9c9d6;margin-top:2px}
+  .sp-word{position:absolute;font-family:'Dancing Script',cursive;font-weight:600;font-size:clamp(18px,3.4vw,28px);color:#ffe9b8;text-shadow:0 0 14px rgba(255,200,120,.7);white-space:nowrap;animation:spFloat 6s ease-in-out infinite}
+  @keyframes spFloat{50%{transform:translateY(-10px)}}
+  .sp-card{margin-top:auto;width:100%;max-width:420px;border-radius:18px;padding:18px 20px;background:rgba(40,12,60,.62);border:1px solid rgba(227,181,101,.4);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 14px 40px rgba(0,0,0,.4);position:relative;z-index:3}
+  .sp-card h3{font-family:'Dancing Script',cursive;font-size:28px;color:var(--gold);margin-bottom:6px}
+  .sp-card p{font-size:14px;line-height:1.75;color:#ffe9ef;margin-bottom:6px}
+  .sp-more{margin-top:14px;font:600 12px 'Be Vietnam Pro',sans-serif;color:var(--gold);letter-spacing:.1em;animation:spFloat 2s ease-in-out infinite}
+  .sp-gal{position:relative;padding:30px 16px 60px;max-width:760px;margin:0 auto;text-align:center}
+  .sp-gal h4{font-family:'Dancing Script',cursive;font-size:32px;color:var(--blush);margin:26px 0 12px;text-shadow:0 0 16px rgba(232,86,127,.6)}
+  .sp-row{display:grid;gap:12px}
+  .sp-row.wide{grid-template-columns:1fr}
+  .sp-row.tall{grid-template-columns:repeat(2,1fr)}
+  @media(min-width:700px){.sp-row.tall{grid-template-columns:repeat(4,1fr)}}
+  .sp-fig{margin:0;border-radius:14px;overflow:hidden;cursor:zoom-in;border:2px solid rgba(227,181,101,.7);background:#2a0d3d;box-shadow:0 10px 26px rgba(0,0,0,.45);opacity:0;transform:translateY(18px);transition:opacity .8s,transform .8s}
+  .sp-fig.in{opacity:1;transform:none}
+  .sp-fig img{display:block;width:100%;height:auto}
+  .sp-fig figcaption{font-size:12px;padding:7px 8px;color:#ffd9e2;background:rgba(30,8,45,.8)}
+  .sp-hero>*:not(.sp-word){opacity:0;animation:spIn 1.2s both}
+  .sp-word{opacity:0;animation:spIn 1.2s both,spFloat 6s ease-in-out infinite}
+  @keyframes spIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  #special.run .sp-hero>*,#special.run .sp-word{animation-play-state:running}
+  #special:not(.run) .sp-hero>*,#special:not(.run) .sp-word{animation-play-state:paused}
+  .sp-close{position:fixed;top:12px;left:12px;z-index:6;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:18px;color:var(--gold);
+    border:1px solid rgba(227,181,101,.6);background:rgba(59,10,36,.6)}
+  #spLb{position:fixed;inset:0;z-index:10;background:rgba(10,3,20,.92);display:none;align-items:center;justify-content:center;padding:14px;cursor:zoom-out}
+  #spLb.on{display:flex}
+  #spLb img{max-width:100%;max-height:100%;border-radius:10px}
 </style>
 </head>
 <body>
@@ -187,6 +232,29 @@
     </div></div>
     </div>
   </div>
+  <div id="special" aria-hidden="true">
+    <div class="sp-wrap" id="spWrap">
+      <div class="sp-stage"><div class="sp-rays"></div><canvas id="spCanvas"></canvas></div>
+      <div class="sp-scroll">
+        <section class="sp-hero" id="spHero">
+          <div class="hi" style="animation-delay:1.6s">Chúc mừng ngày</div>
+          <div class="big" style="animation-delay:1.9s">20·10</div>
+          <div class="vn" style="animation-delay:2.3s">PHỤ NỮ VIỆT NAM</div>
+          <span class="sp-word" style="left:5%;top:46%;animation-delay:2.6s,0s">Luôn xinh đẹp ✿</span>
+          <span class="sp-word" style="left:8%;top:60%;animation-delay:3s,1s">Bình yên, nhẹ nhàng</span>
+          <span class="sp-word" style="right:5%;top:42%;animation-delay:3.2s,2s" id="spCall">♡</span>
+          <span class="sp-word" style="right:6%;top:54%;animation-delay:3.4s,.5s">Thật hạnh phúc</span>
+          <span class="sp-word" style="right:8%;top:66%;animation-delay:3.6s,1.5s">Được yêu thương</span>
+          <span class="sp-word" style="left:6%;top:72%;animation-delay:3.8s,2.5s">Nụ cười rạng rỡ ✧</span>
+          <div class="sp-card" style="animation-delay:4s"><h3 id="spTo"></h3><div id="spMsg"></div></div>
+          <div class="sp-more" style="animation-delay:5s">KÉO XUỐNG ĐỂ XEM ẢNH ⌄</div>
+        </section>
+        <section class="sp-gal" id="spGal"></section>
+      </div>
+    </div>
+    <button class="sp-close" id="spClose" type="button" aria-label="Quay lại">←</button>
+  </div>
+  <div id="spLb"><img alt=""></div>
   <input type="file" id="file" accept="image/*" hidden>
   <p class="footer-note"></p>
 
@@ -308,7 +376,7 @@
       var guest = GUESTS[pin], code = pin;
       if(guest){
         msg.textContent = 'Đúng rồi! Đang mở quà...'; msg.className = 'msg-ok';
-        setTimeout(function(){ renderGuest(guest, code); show(s3); burst = true; spawn(30); }, 700);
+        setTimeout(function(){ if(guest.special){ window.openSpecial(guest); return; } renderGuest(guest, code); show(s3); burst = true; spawn(30); }, 700);
       } else {
         msg.textContent = 'Sai mật mã rồi, thử lại nhé!'; msg.className = 'msg-err';
         box.classList.add('shake'); setTimeout(function(){ box.classList.remove('shake'); }, 450);
@@ -353,7 +421,9 @@
       'dù bài độc tấu không có tiếng vỗ tay, dù sân khấu không có hoa, nhưng khi viên phấn trên tay vẫn có thể khiến mọi âm sắc chạm đến cảm xúc khai mở trí thức, cảm ơn cô đã trở thành ngôi sao sáng trong những năm tháng bình thường của chúng em , nhân ngày 20th10 , thật lòng mà nói thì chúng em rất vui khi được cô chủ nhiệm trong năm học 2026-2027 này , cô rất tâm lí đối với chúng em , nên hôm nay nhân ngày 20th10 tụi em mong cô có thật nhiều niềm vui trong cuộc sống và trong công việc . Mong rằng chúng em và cô  sẽ cùng nhau vẽ lên những kỉ niệm tuyệt vời nhất thời học sinh.',
       'nhân ngày 20th11 , thật lòng mà nói thì chúng em rất vui khi được cô chủ nhiệm trong năm học 2026-2027 này , cô rất tâm lí đối với chúng em , nên hôm nay nhân ngày 20th11 tụi em mong cô có thật nhiều niềm vui trong cuộc sống và trong công việc . Mong rằng chúng em và cô  sẽ cùng nhau vẽ lên những kỉ niệm tuyệt vời nhất thời học sinh !.'
     ]},
-    '2009': {name: '', photo: ''}    // người thứ 21: sửa mật mã, tên và ảnh
+    '2009': {name: '', photo: ''},   // người thứ 21: sửa mật mã, tên và ảnh
+    // người thứ 22: mở TRANG WEB ĐẶC BIỆT (special: true). Sửa mật mã '2210', tên; thêm wishes: [...] nếu muốn lời nhắn riêng
+    '2210': {name: 'TÊN BẠN', special: true}
   };
 
   // ---- KHO LỜI CHÚC: mỗi mật mã nhận ngẫu nhiên đúng 3 lời (cố định cho từng mật mã) ----
@@ -517,6 +587,101 @@
   btn.addEventListener('click', function(){ if(on){ stop(); wantMusic = false; } else { startTrack(cur); wantMusic = true; } });
   btnNext.addEventListener('click', function(){ cur = (cur + 1) % LIST.length; startTrack(cur); wantMusic = true; });
   sync();
+})();
+</script>
+<script>
+/* =====================================================================
+   TRANG ĐẶC BIỆT cho người thứ 22 (mở sau khi quét QR + nhập đúng mật mã)
+   Ảnh: a.jpg b.jpg c.jpg d1..d4.jpg để cùng thư mục với index.html
+   ===================================================================== */
+(function(){
+  var BASE = 'https://trungrk247.github.io/qua2010/';
+  var PHOTOS = {
+    memories: [{f:'a.jpg',c:'Hồ sơ kiện tướng'},{f:'b.jpg',c:'Hồ sơ kiện tướng'},{f:'c.jpg',c:'Hồi ức chung · Chiến hữu 15 cấp'}],
+    frames: ['d1.jpg','d2.jpg','d3.jpg','d4.jpg']
+  };
+  var root = document.getElementById('special'); if(!root) return;
+  var wrap = document.getElementById('spWrap'), cv = document.getElementById('spCanvas'), ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, raf = null, items = [], T = 0;
+  var MUSTACHE = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40"><path d="M100 15C88 6 66 3 46 9C30 14 16 14 8 7C5 4 2 6 3 10C6 22 22 28 44 24C66 21 84 24 100 28C116 24 134 21 156 24C178 28 194 22 197 10C198 6 195 4 192 7C184 14 170 14 154 9C134 3 112 6 100 15Z"/></svg>';
+  var cols = ['#ff7a8f','#ffb3c1','#ffcf6e','#f06292','#ffd9e2'];
+  var bigHearts = [[.2,.16,.13],[.8,.18,.15],[.5,.2,.1],[.12,.5,.08],[.9,.55,.08]];
+
+  function size(){ dpr = Math.min(window.devicePixelRatio||1,2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  function heart(x,y,s,c,a){
+    ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = c; ctx.translate(x,y); ctx.scale(s/30,s/30);
+    ctx.beginPath(); ctx.moveTo(0,8); ctx.bezierCurveTo(-14,-6,-12,-18,0,-10); ctx.bezierCurveTo(12,-18,14,-6,0,8); ctx.fill(); ctx.restore();
+  }
+  function spawn(first){
+    var bokeh = Math.random() < .16;
+    items.push({x:Math.random()*W,y:first?Math.random()*H:H+30,s:bokeh?30+Math.random()*40:8+Math.random()*16,v:.3+Math.random()*.9,sw:Math.random()*6.28,
+      ss:.015+Math.random()*.02,a:bokeh?.18+Math.random()*.15:.35+Math.random()*.5,c:cols[Math.floor(Math.random()*cols.length)],bokeh:bokeh});
+  }
+  function dotted(cx,cy,r,ph){
+    var n = 64;
+    for(var k=0;k<2;k++){
+      var sc = k ? .62 : 1;
+      for(var i=0;i<n;i++){
+        var t = i/n*6.2832, x = 16*Math.pow(Math.sin(t),3), y = -(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
+        var a = .35 + .65*Math.abs(Math.sin(T*1.6 + i*.45 + ph));
+        ctx.globalAlpha = a; ctx.fillStyle = i%7===0 ? '#ffe3a8' : '#ffd0e0';
+        ctx.beginPath(); ctx.arc(cx + x*r/16*sc, cy + y*r/16*sc, 1.1 + (i%5===0?1:0), 0, 6.2832); ctx.fill();
+      }
+    }
+  }
+  function loop(){
+    T += .016; ctx.clearRect(0,0,W,H);
+    bigHearts.forEach(function(b,i){ dotted(b[0]*W, b[1]*H + Math.sin(T+i)*6, b[2]*Math.min(W,H*1.3)*1.4, i); });
+    for(var i=items.length-1;i>=0;i--){
+      var h = items[i]; h.y -= h.v; h.sw += h.ss; var x = h.x + Math.sin(h.sw)*18;
+      if(h.bokeh){ var g = ctx.createRadialGradient(x,h.y,0,x,h.y,h.s); g.addColorStop(0,h.c); g.addColorStop(1,'rgba(255,200,150,0)'); ctx.globalAlpha = h.a; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,h.y,h.s,0,6.2832); ctx.fill(); }
+      else heart(x,h.y,h.s,h.c,h.a);
+      if(h.y < -60){ items.splice(i,1); spawn(false); }
+    }
+    ctx.globalAlpha = 1; raf = requestAnimationFrame(loop);
+  }
+  function addImg(box, f, cap){
+    var fig = document.createElement('figure'); fig.className = 'sp-fig';
+    var im = new Image(), tried = 0; im.alt = cap || 'Ảnh kỷ niệm'; im.loading = 'lazy';
+    im.onerror = function(){ if(!tried++) im.src = BASE + f; else fig.style.display = 'none'; };
+    im.src = f; fig.appendChild(im);
+    if(cap){ var fc = document.createElement('figcaption'); fc.textContent = cap; fig.appendChild(fc); }
+    fig.addEventListener('click', function(){ var lb = document.getElementById('spLb'); lb.firstChild.src = im.src; lb.classList.add('on'); });
+    box.appendChild(fig); return fig;
+  }
+  window.openSpecial = function(g){
+    var name = g.name || '', msgs = (g.wishes && g.wishes.length) ? g.wishes : [
+      'Nhân ngày 20/10, mong ' + (name || 'bạn') + ' luôn được thương, được nâng niu và hạnh phúc theo cách mình mong muốn.',
+      'Cảm ơn vì đã xuất hiện và làm những ngày bình thường trở nên đáng nhớ. Chúc bạn mãi rạng rỡ nhé!'];
+    document.getElementById('spTo').textContent = 'Gửi ' + (name || 'bạn');
+    document.getElementById('spCall').textContent = (name || 'Bạn') + ' ơi ♡';
+    var m = document.getElementById('spMsg'); m.innerHTML = '';
+    msgs.forEach(function(t){ var p = document.createElement('p'); p.textContent = t; m.appendChild(p); });
+    var gal = document.getElementById('spGal'); gal.innerHTML = '';
+    var h1 = document.createElement('h4'); h1.textContent = 'Kỷ niệm của chúng mình'; gal.appendChild(h1);
+    var r1 = document.createElement('div'); r1.className = 'sp-row wide'; gal.appendChild(r1);
+    PHOTOS.memories.forEach(function(p){ addImg(r1, p.f, p.c); });
+    var h2 = document.createElement('h4'); h2.textContent = 'Những khung hình đáng yêu'; gal.appendChild(h2);
+    var r2 = document.createElement('div'); r2.className = 'sp-row tall'; gal.appendChild(r2);
+    PHOTOS.frames.forEach(function(f){ addImg(r2, f, ''); });
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{root:root.querySelector('.sp-scroll'),threshold:.1});
+      gal.querySelectorAll('.sp-fig').forEach(function(f){ io.observe(f); });
+    } else gal.querySelectorAll('.sp-fig').forEach(function(f){ f.classList.add('in'); });
+
+    var url = 'url("data:image/svg+xml,' + encodeURIComponent(MUSTACHE) + '")';
+    wrap.style.webkitMaskImage = wrap.style.maskImage = url;
+    wrap.style.webkitMaskSize = wrap.style.maskSize = '0 0';
+    root.classList.add('on'); root.setAttribute('aria-hidden','false');
+    size(); items = []; for(var i=0;i<46;i++) spawn(true);
+    if(!raf) loop();
+    void root.offsetWidth; root.classList.add('run');
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ wrap.style.webkitMaskImage = wrap.style.maskImage = 'none'; }
+  };
+  wrap.addEventListener('animationend', function(){ wrap.style.webkitMaskImage = wrap.style.maskImage = 'none'; });
+  window.addEventListener('resize', function(){ if(root.classList.contains('on')) size(); });
+  document.getElementById('spClose').addEventListener('click', function(){ location.hash = ''; location.reload(); });
+  document.getElementById('spLb').addEventListener('click', function(){ this.classList.remove('on'); });
 })();
 </script>
 </body>
