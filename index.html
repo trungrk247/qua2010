@@ -265,7 +265,7 @@
     // (mật mã giờ nằm trong danh sách GUESTS bên dưới)                 // mật mã mở quà
     photoBase: 'https://trungrk247.github.io/qua2010/',   // đường dẫn thư mục ảnh trên GitHub (có dấu / ở cuối). Mở file từ máy vẫn tải được ảnh từ link này. Ảnh để trong thư mục con thì thêm vào, vd '.../qua2010/anh/'. Để trống = lấy ảnh cạnh file
     photoUrl: '',                // dán link ảnh hoặc tên file ảnh (vd: 'anh.jpg'). Để trống = chạm vào khung để chọn ảnh
-    qrText: 'https://trungrk247.github.io/qua2010/#mo-qua'  // link mà mã QR mở ra khi quét
+    qrText: 'https://trungrk247.github.io/qua2010/?open=pin#mo-qua'  // quét QR sẽ mở thẳng màn nhập mật mã
   };
   /* ======================= */
 
@@ -395,9 +395,24 @@
 
   // ---- Chuyển màn ----
   var s1 = document.getElementById('screen1'), s2 = document.getElementById('screen2'), s3 = document.getElementById('screen3');
-  function show(el){ [s1,s2,s3].forEach(function(x){ x.classList.add('hidden-screen'); }); el.classList.remove('hidden-screen'); }
-  // Quét QR -> link có #mo-qua -> vào thẳng màn nhập mật mã
-  if(location.hash === '#mo-qua') show(s2);
+  function show(el){
+    [s1,s2,s3].forEach(function(x){ x.classList.add('hidden-screen'); });
+    el.classList.remove('hidden-screen');
+  }
+
+  // QR mở trực tiếp màn nhập mật mã.
+  // Hỗ trợ cả URL dạng #mo-qua và ?open=pin để tránh khác biệt khi quét bằng ứng dụng camera.
+  function openPinFromLink(){
+    var hash = (window.location.hash || '').toLowerCase().replace(/^#\/?/, '');
+    var params = new URLSearchParams(window.location.search || '');
+    if (hash === 'mo-qua' || params.get('open') === 'pin') {
+      show(s2);
+      return true;
+    }
+    return false;
+  }
+  openPinFromLink();
+  window.addEventListener('hashchange', openPinFromLink);
 
   // ---- Bàn phím mật mã ----
   var pin = '', dots = document.querySelectorAll('.dot'), pad = document.getElementById('pad'),
